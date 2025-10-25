@@ -15,8 +15,8 @@ class Game:
         self.movement1 = [False, False]
         self.movement2 = [False, False]
         
-        player1_pos = (self.screen.get_width() * 0.1, self.screen.get_height() // 2)
-        player2_pos = (self.screen.get_width() * 0.9, self.screen.get_height() // 2)
+        player1_pos = (self.screen.get_width() * 0.05, self.screen.get_height() // 2)
+        player2_pos = (self.screen.get_width() * 0.95, self.screen.get_height() // 2)
         
         # Create paddle
         paddle1 = pygame.Rect(player1_pos[0], player1_pos[1], 4, self.screen.get_height() // 8)
@@ -24,8 +24,8 @@ class Game:
         pygame.draw.rect(self.screen, (255, 255, 255), paddle1)
         pygame.draw.rect(self.screen, (255, 255, 255), paddle2)
         
-        self.player1 = PhysicsEntity(self, 'player1', player1_pos, (4,15), paddle1)
-        self.player2 = PhysicsEntity(self, 'player2', player2_pos, (4,15), paddle2)
+        self.player1 = PhysicsEntity(self, 'player1', player1_pos, (4, self.screen.get_height() // 8), paddle1)
+        self.player2 = PhysicsEntity(self, 'player2', player2_pos, (4, self.screen.get_height() // 8), paddle2)
         
     def run(self):
         while True:
@@ -34,16 +34,39 @@ class Game:
             divider = pygame.Rect((self.screen.get_width() // 2) - 2, 0, 4, self.screen.get_height())
             pygame.draw.rect(self.screen, (255, 255, 255), divider)
             
-            self.player1.update((self.movement1[1] - self.movement1[0], 0))
+            self.player1.update((0, self.movement1[1] - self.movement1[0]))
             self.player1.render(self.screen)
-            self.player2.update((self.movement2[1] - self.movement2[0], 0))
+            self.player2.update((0, self.movement2[1] - self.movement2[0]))
             self.player2.render(self.screen)
-
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+            
+                if event.type == pygame.KEYDOWN:
+                    # Player 1
+                    if event.key == pygame.K_w:
+                        self.movement1[0] = True
+                    if event.key == pygame.K_s:
+                        self.movement1[1] = True
+                    # Player 2
+                    if event.key == pygame.K_UP:
+                        self.movement2[0] = True
+                    if event.key == pygame.K_DOWN:
+                        self.movement2[1] = True
+                        
+                if event.type == pygame.KEYUP:
+                    # Player 1
+                    if event.key == pygame.K_w:
+                        self.movement1[0] = False
+                    if event.key == pygame.K_s:
+                        self.movement1[1] = False
+                    # Player 2
+                    if event.key == pygame.K_UP:
+                        self.movement2[0] = False
+                    if event.key == pygame.K_DOWN:
+                        self.movement2[1] = False
             
             pygame.display.update()
             self.clock.tick(30)
