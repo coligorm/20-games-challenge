@@ -15,6 +15,8 @@ class Game:
         self.movement1 = [False, False]
         self.movement2 = [False, False]
         
+        self.ball_movement = [False, False]
+        
         player1_pos = (self.screen.get_width() * 0.05, self.screen.get_height() // 2)
         player2_pos = (self.screen.get_width() * 0.95, self.screen.get_height() // 2)
         
@@ -26,6 +28,10 @@ class Game:
         
         self.player1 = PhysicsEntity(self, 'player1', player1_pos, (4, self.screen.get_height() // 8), paddle1)
         self.player2 = PhysicsEntity(self, 'player2', player2_pos, (4, self.screen.get_height() // 8), paddle2)
+        
+        # Create ball
+        ball_img = pygame.draw.circle(self.screen, (255, 255, 255), (self.screen.get_width() // 2, self.screen.get_height() // 2), 2)
+        self.ball = PhysicsEntity(self, 'ball', (self.screen.get_width() // 2, self.screen.get_height() // 2), (4, 4), ball_img)
         
     def run(self):
         while True:
