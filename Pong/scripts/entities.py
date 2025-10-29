@@ -7,6 +7,7 @@ class PhysicsEntity:
         self.pos = list(pos)
         self.size = size
         self.asset = asset
+        self.velocity = [1, 1]
         
     def update(self, movement):
         frame_movement = (movement[0], movement[1])

@@ -44,6 +44,9 @@ class Game:
             self.player1.render(self.screen)
             self.player2.update((0, self.movement2[1] - self.movement2[0]))
             self.player2.render(self.screen)
+
+            self.ball.update((0, self.movement1[1] - self.movement1[0]))
+            self.ball.render(self.screen)
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -51,6 +54,8 @@ class Game:
                     sys.exit()
             
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        self.ball_movement[0] = True
                     # Player 1
                     if event.key == pygame.K_w:
                         self.movement1[0] = True
